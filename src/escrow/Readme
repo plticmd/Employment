@@ -1,0 +1,30 @@
+[共通field]
+https://xrpl.org/ja/transaction-common-fields.html
+
+Account	文字列	AccountID	（必須） トランザクションを開始したアカウントの一意アドレス。
+TransactionType	文字列	UInt16	（必須） トランザクションのタイプ。有効なタイプは、Payment、OfferCreate、OfferCancel、TrustSet、AccountSet、SetRegularKey、SignerListSet、EscrowCreate、EscrowFinish、EscrowCancel、PaymentChannelCreate、PaymentChannelFund、PaymentChannelClaim、DepositPreauthです。
+Fee	文字列	Amount	（必須。自動入力可能） 整数で表したXRPの額（drop単位）。このトランザクションをネットワークに送信するためのコストとして消却されます。トランザクションのタイプによっては、最小要件が異なります。詳細は、トランザクションコストを参照してください。
+Sequence	符号なし整数	UInt32	（必須。自動入力可能） トランザクションを開始したアカウントに関連付けられた、トランザクションのシーケンス番号。トランザクションが有効とみなされるのは、そのSequence番号が、同一のアカウントの直前トランザクションよりも1大きい場合のみです。保留中のトランザクションをSequence番号を使用して無効にする方法については、トランザクションのキャンセルまたはスキップを参照してください。
+AccountTxnID	文字列	Hash256	（省略可） 別のトランザクションを識別するためのハッシュ値。このハッシュがある場合、このトランザクションが有効になるのは、送信側のアカウントの直前送信トランザクションがこのハッシュと一致しているときのみです。
+Flags	符号なし整数	UInt32	（省略可） このトランザクションのビットフラグのセット。
+LastLedgerSequence	数値	UInt32	（省略可。使用を強く推奨） このトランザクションを登録できるレジャーインデックスの最大値。このフィールドを指定することにより、トランザクションが検証または拒否されるのを待たなければならない期間の上限を設定することができます。詳細は、信頼できるトランザクションの送信を参照してください。
+NetworkID	Number	UInt32	(Network-specific) The network ID of the chain this transaction is intended for. MUST BE OMITTED for Mainnet and some test networks. REQUIRED on chains whose network ID is 1025 or higher.
+Memos	オブジェクトの配列	配列	（省略可） このトランザクションの識別に使用される任意の追加情報。
+Signers	配列	配列	（省略可） このトランザクションを承認するためのマルチシグを表すオブジェクトの配列。
+SourceTag	符号なし整数	UInt32	（省略可） この支払いの理由、またはこのトランザクションの実行元である送信者を識別するために使用される任意の整数。一般的に、返金については、最初の支払いのSourceTagを返金のDestinationTagとして指定する必要があります。
+SigningPubKey	文字列	Blob	（署名時に自動追加） このトランザクションへの署名に使用される秘密鍵に対応する公開鍵の16進表現。空文字列の場合は、代わりにSignersフィールドにマルチシグが保持されていることを示します。
+TxnSignature	文字列	Blob	（署名時に自動追加） このトランザクションが、発信元であると主張しているアカウントから発信されたものであることを検証するための署名。
+
+
+[escrow field]
+https://xrpl.org/ja/escrowcreate.html
+
+Amount	文字列	Amount	送金元の残高から差し引いてエスクローに留保するXRP、drop単位の額。エスクローに留保されたXRPはDestinationアドレスに送金されるか（FinishAfter時刻の経過後）、または送金元に戻されます（CancelAfter時刻の経過後）。
+Destination	文字列	AccountID	エスクローに留保されたXRPを受領するアドレス。
+CancelAfter	数値	UInt32	（省略可） このEscrowの有効期限（Rippleエポック以降の経過秒数）。この値は変更できません。この時刻の経過後にのみ資金を送金元に返金できます。
+FinishAfter	数値	UInt32	（省略可） Escrowに留保されたXRPを受取人に対してリリースできる時刻（Rippleエポック以降の経過秒数）。この値は変更できません。この時刻に達するまでは資金を移動できません。
+Condition	文字列	Blob	（省略可）PREIMAGE-SHA-256 Crypto-condition を表す16進数値。この条件が満たされている場合にのみ、資金を受取人に送金できます。
+DestinationTag	数値	UInt32	（省略可） Escrowに留保されている支払いの宛先（宛先アドレスでホスティングされている受取人など） を詳しく指定するための任意のタグ。
+CancelAfterとFinishAfterのいずれかを指定する必要があります。両方を指定する場合は、FinishAfterの時刻がCancelAfterの時刻よりも前でなければなりません。
+
+fix1571 Amendmentが有効な場合は、FinishAfter、Conditionのいずれかまたは両方を指定する必要があります。新規: rippled 1.0.0 
