@@ -73,15 +73,6 @@ body {
   border-radius: 10px;
 }
 
-.ledger_details, .send_xrp_container, .tx_history_container, .escrow_container {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  padding: 20px;
-  border: 1px solid white;
-  border-radius: 10px;
-}
-
 .send_xrp_container label {
   padding: 10px 0 0 0;
 }
