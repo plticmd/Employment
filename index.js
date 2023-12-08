@@ -29,6 +29,10 @@ const walletLoadingDiv = document.querySelector('#loading_wallet_details');
                 walletElement.querySelector('.wallet_xaddress').textContent = `X-Address: ${xAddress}`;
 
                 // Redirect on View More link click
+                walletElement.querySelector('#escrow_button').addEventListener('click', () => {
+                    window.open(`/src/escrow/escrow.html`);
+                });
+                
                 walletElement.querySelector('#view_more_button').addEventListener('click', () => {
                     window.open(`https://${process.env.EXPLORER_NETWORK}.xrpl.org/accounts/${address}`, '_blank');
                 });
