@@ -30,7 +30,7 @@ const walletLoadingDiv = document.querySelector('#loading_wallet_details');
 
                 // Redirect on View More link click
                 walletElement.querySelector('#escrow_button').addEventListener('click', () => {
-                    window.open(`/src/escrow/escrow.html`);
+                    window.open(`/escrow.html`);
                 });
                 
                 walletElement.querySelector('#view_more_button').addEventListener('click', () => {
