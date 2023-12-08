@@ -1,11 +1,8 @@
 import { Client, Wallet, dropsToXrp, isValidClassicAddress, xrpToDrops } from 'xrpl';
 
-import getWalletDetails from '../helpers/get-wallet-details';
-import renderXrplLogo from '../helpers/render-xrpl-logo';
-import submitTransaction from '../helpers/submit-transaction';
+import getWalletDetails from './src/helpers/get-wallet-details';
 
-// Optional: Render the XRPL logo
-renderXrplLogo();
+import submitTransaction from './src/helpers/submit-transaction';
 
 const { Xumm } = require('xumm');
 //const { convertStringToHex, NFTokenMintFlags } = require('xrpl');
@@ -31,9 +28,6 @@ xumm.payload?.create(transaction).then(payload=>{
 });
 
 // Get the elements from the DOM
-const homeButton = document.querySelector('#home_button');
-const sendXrpButton = document.querySelector('#send_xrp_button');
-const txHistoryButton = document.querySelector('#transaction_history_button');
 const destinationAddress = document.querySelector('#destination_address');
 const amount = document.querySelector('#amount');
 const destinationTag = document.querySelector('#destination_tag');
@@ -48,19 +42,6 @@ const cancelAfter = document.querySelector('#cancel_after');
 submitTxBtn.disabled = true;
 let isValidDestinationAddress = false;
 const allInputs = document.querySelectorAll('#destination_address, #amount');
-
-// Add event listener to the redirect buttons
-homeButton.addEventListener('click', () => {
-  window.location.pathname = '/index.html';
-});
-
-sendXrpButton.addEventListener('click', () => {
-  window.location.pathname = '/src/send-xrp/send-xrp.html';
-});
-
-txHistoryButton.addEventListener('click', () => {
-  window.location.pathname = '/src/transaction-history/transaction-history.html';
-});
 
 // Update the account balance on successful transaction
 client.on('transaction', (response) => {
